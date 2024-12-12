@@ -1,0 +1,32 @@
+[
+  {
+    "group": "admin",
+    "permissions": [
+      {
+        "resource": "*",
+        "methods": "*",
+        "action": "allow"
+      }
+    ]
+  },
+  {
+    "group": "customer",
+    "permissions": [
+      {
+        "resource": "dashboard/",
+        "methods": ["GET", "POST", "PUT"],
+        "action": "allow"
+      }
+    ]
+  },
+  {
+    "group": "guest",
+    "permissions": [
+      {
+        "resource": "dashboard/",
+        "methods": ["GET"],
+        "action": "allow"
+      }
+    ]
+  }
+]

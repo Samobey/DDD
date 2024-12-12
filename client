@@ -1,0 +1,12 @@
+GET http://localhost:3000/v1/dashboard?role=admin HTTP/2.0
+content-type: application/json
+
+###
+
+GET http://localhost:3000/v1/admin?role=admin HTTP/2.0
+content-type: application/json
+
+###
+
+GET http://localhost:3000/v1/admin?role=customer HTTP/2.0
+content-type: application/json
