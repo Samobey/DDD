@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <h1>WebSocket Connection</h1>
+    <button onclick="sendMessage()">Send a Ping</button>
+    <script>
+        const socketUrl = "ws://localhost:3000";
+        let socket;
+        let pingInterval;
+        let lastPongTime = Date.now();
+        const RECONNECT_INTERVAL = 5000;
+
+        function connectWebSocket() {
+            socket = new WebSocket(socketUrl);
+
+            socket.onopen = () => {
+                console.log("✅ Connected to WebSocket");
+                sendPendingData();
+                pingInterval = setInterval(sendPing, 5000);
+            };
+
+            socket.onmessage = (event) => {
+                if (event.data === "pong") {
+                    lastPongTime = Date.now();
+                } else {
+                    console.log("📩 Received:", event.data);
+                }
+            };
+
+            socket.onclose = () => {
+                console.log("❌ Disconnected. Attempting reconnect...");
+                clearInterval(pingInterval);
+                checkServerHealth();
+            };
+        }
+
+        function sendPing() {
+            if (Date.now() - lastPongTime > 10000) {
+                console.log("⚠️ No pong received in 10s. Reconnecting...");
+                socket.close();
+            } else {
+                socket.send("ping");
+            }
+        }
+
+        function checkServerHealth() {
+            fetch("/health-check")
+                .then(() => connectWebSocket())
+                .catch(() => setTimeout(checkServerHealth, RECONNECT_INTERVAL));
+        }
+
+        function saveData(key, data) {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        function sendPendingData() {
+            const pendingData = localStorage.getItem("unsentMessages");
+            if (pendingData) {
+                socket.send(pendingData);
+                localStorage.removeItem("unsentMessages");
+            }
+        }
+
+        function sendMessage() {
+            const message = "Hello, Server!";
+            if (socket.readyState === WebSocket.OPEN) {
+                socket.send(message);
+            } else {
+                console.log("⚠️ WebSocket not connected. Saving data locally.");
+                saveData("unsentMessages", message);
+            }
+        }
+
+        connectWebSocket();
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket with SSE Fallback</title>
+</head>
+<body>
+    <h1>WebSocket & SSE Fallback</h1>
+    <button onclick="sendMessage()">Send a Ping</button>
+    <p id="status">Connecting...</p>
+
+    <script>
+        const socketUrl = "ws://localhost:3000";
+        let socket;
+        let pingInterval;
+        let lastPongTime = Date.now();
+        const RECONNECT_INTERVAL = 5000;
+        let failedAttempts = 0;
+        let usingSSE = false;
+        let eventSource;
+
+        function connectWebSocket() {
+            if (usingSSE) return; // Don't try WebSockets if SSE is active
+
+            socket = new WebSocket(socketUrl);
+            document.getElementById("status").textContent = "🟢 Connected via WebSocket";
+
+            socket.onopen = () => {
+                console.log("✅ WebSocket Connected");
+                failedAttempts = 0;
+                sendPendingData();
+                pingInterval = setInterval(sendPing, 5000);
+            };
+
+            socket.onmessage = (event) => {
+                if (event.data === "pong") {
+                    lastPongTime = Date.now();
+                } else {
+                    console.log("📩 WebSocket Received:", event.data);
+                }
+            };
+
+            socket.onclose = () => {
+                console.log("❌ WebSocket Disconnected. Attempting reconnect...");
+                clearInterval(pingInterval);
+            };
+        }
+
+        function sendPing() {
+            if (Date.now() - lastPongTime > 10000) {
+                console.log("⚠️ No pong received in 10s. Reconnecting...");
+
+                failedAttempts++;
+                console.log(`🔁 Failed Attempts: ${failedAttempts}`);
+
+                if (failedAttempts >= 2) {
+                    console.log("⚠️ Switching to SSE fallback");
+                    connectSSE();
+                    socket.close();
+                } else {
+                    //socket.close();
+                    checkServerHealth();
+                }
+            } else {
+                socket.send("ping");
+            }
+        }
+
+        function checkServerHealth() {
+            fetch("http://localhost:3000/health-check")
+                .then(() => connectWebSocket())
+                .catch(() => setTimeout(checkServerHealth, RECONNECT_INTERVAL));
+        }
+
+        function saveData(key, data) {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        function sendPendingData() {
+            const pendingData = localStorage.getItem("unsentMessages");
+            if (pendingData && !usingSSE) {
+                socket.send(pendingData);
+                localStorage.removeItem("unsentMessages");
+            }
+        }
+
+        function sendMessage() {
+            const message = "Hello, Server!";
+            if (!usingSSE && socket.readyState === WebSocket.OPEN) {
+                socket.send(message);
+            } else {
+                console.log("⚠️ WebSocket not connected. Saving data locally.");
+                saveData("unsentMessages", message);
+            }
+        }
+
+        function connectSSE() {
+            usingSSE = true;
+            eventSource = new EventSource("http://localhost:3000/events");
+
+            document.getElementById("status").textContent = "🟠 Connected via SSE";
+
+            eventSource.onmessage = (event) => {
+                console.log("📩 SSE Received:", JSON.parse(event.data));
+            };
+
+            eventSource.onerror = () => {
+                console.log("❌ SSE Disconnected. Retrying in 5s...");
+                eventSource.close();
+                setTimeout(connectSSE, RECONNECT_INTERVAL);
+            };
+        }
+
+        connectWebSocket();
+    </script>
+</body>
+</html>
