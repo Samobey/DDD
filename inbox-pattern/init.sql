@@ -1,0 +1,6 @@
+CREATE TABLE inbox (
+  id VARCHAR(255) PRIMARY KEY,
+  event_type VARCHAR(255),
+  payload JSON,
+  received_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

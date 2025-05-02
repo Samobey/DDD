@@ -1,0 +1,29 @@
+services:
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: orders
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  order-service:
+    build: ./order-service
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mysql
+
+  relay-service:
+    build: ./relay-service
+    depends_on:
+      - rabbitmq
+      - mysql

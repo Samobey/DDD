@@ -1,0 +1,13 @@
+CREATE TABLE orders (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  item VARCHAR(255),
+  quantity INT
+);
+
+CREATE TABLE outbox (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  event_type VARCHAR(255),
+  payload JSON,
+  published BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
