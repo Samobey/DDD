@@ -20,7 +20,9 @@ const client = new Client({
   },
 });
 
-await client.connect();
+await client.connect().then(() => {
+  console.log("Connection to DB established.")
+});
 
 /* NOTIFY/LISTEN */
 await client.query("LISTEN new_order_channel");
