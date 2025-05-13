@@ -1,0 +1,34 @@
+POST http://localhost:3000/create-order HTTP/1.1
+content-type: application/json
+
+{
+    "user_id": "4",
+    "product": "Acoustic Guitar",
+    "amount": 2
+}
+
+###
+
+POST http://localhost:3000/login HTTP/1.1
+content-type: application/json
+
+{
+    "user_id": "3"
+}
+
+###
+
+POST http://localhost:3000/prepare-email HTTP/1.1
+content-type: application/json
+
+{
+    "order_id": "1"
+}
+
+###
+
+GET http://localhost:3000/addresses/1 HTTP/1.1
+
+###
+
+GET http://localhost:3000/user-settings/theme/dark HTTP/1.1
