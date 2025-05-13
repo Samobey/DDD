@@ -13,15 +13,14 @@ app.use(express.urlencoded({ extended: true }));
 const port = process.env.PORT || 3000;
 
 const client = new Client({
-  connectionString:
-    process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false, // use only in dev; for production, configure certs properly
   },
 });
 
 await client.connect().then(() => {
-  console.log("Connection to DB established.")
+  console.log("Connection to DB established.");
 });
 
 /* NOTIFY/LISTEN */
@@ -40,6 +39,8 @@ app.post("/create-order", async (req, res) => {
     `INSERT INTO orders (user_id, product, amount) VALUES ($1, $2, $3)`,
     [user_id, product, amount]
   );
+
+  res.status(201);
 });
 
 /* Row-Level Security */
@@ -49,6 +50,8 @@ app.post("/login", async (req, res) => {
   await client.query(query);
 
   console.log("🔒 RLS enabled per user, with current ID:", userId);
+
+  res.status(200).json(userId);
 
   /* 
       Now every query like:
@@ -89,6 +92,8 @@ app.post("/prepare-email", async (req, res) => {
           orderId,
         ]);
         console.log("✅ Order marked as paid!");
+
+        res.status(200).json(orderId);
       }, 3000);
     } else {
       console.log("ℹ️ Order already paid.");
@@ -117,6 +122,8 @@ app.get("/addresses/:userId", async (req, res) => {
     const [street, city, zip] = compositeStr.slice(1, -1).split(",");
 
     console.log("📍 Home address is:", street, city, zip);
+
+    res.status(200).json({ street, city, zip });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Something went wrong" });
@@ -125,7 +132,7 @@ app.get("/addresses/:userId", async (req, res) => {
 
 /* JSONB */
 app.get("/user-settings/theme/:theme", async (req, res) => {
-  const theme = req.query.theme;
+  const theme = req.params.theme;
 
   try {
     const query = `
@@ -133,9 +140,11 @@ app.get("/user-settings/theme/:theme", async (req, res) => {
         FROM users
         WHERE settings ->> 'theme' = $1;
       `;
-      const { rows } = await client.query(query, [theme]);
-      
+    const { rows } = await client.query(query, [theme]);
+
     console.log("✨ Users with such theme are:", rows);
+
+    res.status(200).json(rows);
   } catch (err) {
     console.error("Error fetching user settings:", err);
     res.status(500).json({ error: "Internal Server Error" });

@@ -1,24 +1,24 @@
-POST http://localhost:3000/create-order HTTP/1.1
+POST https://youtube-tutorials.onrender.com/create-order HTTP/1.1
 content-type: application/json
 
 {
-    "user_id": "4",
-    "product": "Acoustic Guitar",
+    "user_id": "2",
+    "product": "Electic Guitar",
     "amount": 2
 }
 
 ###
 
-POST http://localhost:3000/login HTTP/1.1
+POST https://youtube-tutorials.onrender.com/login HTTP/1.1
 content-type: application/json
 
 {
-    "user_id": "3"
+    "user_id": "2"
 }
 
 ###
 
-POST http://localhost:3000/prepare-email HTTP/1.1
+POST https://youtube-tutorials.onrender.com/prepare-email HTTP/1.1
 content-type: application/json
 
 {
@@ -27,8 +27,8 @@ content-type: application/json
 
 ###
 
-GET http://localhost:3000/addresses/1 HTTP/1.1
+GET https://youtube-tutorials.onrender.com/addresses/1 HTTP/1.1
 
 ###
 
-GET http://localhost:3000/user-settings/theme/dark HTTP/1.1
+GET https://youtube-tutorials.onrender.com/user-settings/theme/dark HTTP/1.1

@@ -11,7 +11,7 @@ CREATE TABLE orders (
 );
 
 -- 2. Create a trigger function that notifies when a new order is inserted
-CREATE OR REPLACE FUNCTION notify_new_order () RETURNS trigger AS $$
+CREATE OR REPLACE FUNCTION notify_new_order() RETURNS trigger AS $$
 BEGIN
   PERFORM pg_notify('new_order_channel', row_to_json(NEW)::text);
   RETURN NEW;
@@ -21,7 +21,7 @@ $$ LANGUAGE plpgsql;
 -- 3. Attach it to the 'orders' table
 CREATE TRIGGER trigger_new_order
 AFTER INSERT ON orders FOR EACH ROW
-EXECUTE FUNCTION notify_new_order ();
+EXECUTE FUNCTION notify_new_order();
 
 ---
 /* Row-Level Security */
