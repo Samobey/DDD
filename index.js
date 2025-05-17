@@ -80,10 +80,10 @@ app.post("/prepare-email", async (req, res) => {
 
   try {
     console.log("🔒 Locked order. Processing...");
-    const res = await client.query("SELECT * FROM orders WHERE id = $1", [
+    const orderRes = await client.query("SELECT * FROM orders WHERE id = $1", [
       orderId,
     ]);
-    const order = res.rows[0];
+    const order = orderRes.rows[0];
 
     if (order.status !== "paid") {
       setTimeout(async () => {

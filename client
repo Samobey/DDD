@@ -1,24 +1,24 @@
-POST https://youtube-tutorials.onrender.com/create-order HTTP/1.1
+POST https://ecommerce-shop-api-wb8b.onrender.com/create-order HTTP/1.1
 content-type: application/json
 
 {
-    "user_id": "2",
-    "product": "Electic Guitar",
+    "user_id": "1",
+    "product": "Acoustic Guitar",
     "amount": 2
 }
 
 ###
 
-POST https://youtube-tutorials.onrender.com/login HTTP/1.1
+POST https://ecommerce-shop-api-wb8b.onrender.com/login HTTP/1.1
 content-type: application/json
 
 {
-    "user_id": "2"
+    "user_id": "1"
 }
 
 ###
 
-POST https://youtube-tutorials.onrender.com/prepare-email HTTP/1.1
+POST https://ecommerce-shop-api-wb8b.onrender.com/prepare-email HTTP/1.1
 content-type: application/json
 
 {
@@ -27,8 +27,8 @@ content-type: application/json
 
 ###
 
-GET https://youtube-tutorials.onrender.com/addresses/1 HTTP/1.1
+GET https://ecommerce-shop-api-wb8b.onrender.com/addresses/1 HTTP/1.1
 
 ###
 
-GET https://youtube-tutorials.onrender.com/user-settings/theme/dark HTTP/1.1
+GET https://ecommerce-shop-api-wb8b.onrender.com/user-settings/theme/dark HTTP/1.1
