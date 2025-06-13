@@ -1,0 +1,9 @@
+{
+  "name": "processor-service",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "amqplib": "^0.10.3",
+    "@aws-sdk/client-s3": "^3.540.0"
+  }
+}
