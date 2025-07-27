@@ -1,0 +1,7 @@
+image:
+  repository: my-job-app
+  tag: latest
+resources:
+  requests:
+    cpu: 10m
+    memory: 16Mi

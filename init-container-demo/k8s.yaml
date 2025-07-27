@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-container-demo
+spec:
+  volumes:
+    - name: app-data
+      emptyDir: {}
+  initContainers:
+    - name: migrate
+      image: my-app
+      command: ["npm", "run", "migrate"]
+      volumeMounts:
+        - name: app-data
+          mountPath: /app
+  containers:
+    - name: app
+      image: my-app
+      command: ["npm", "start"]
+      volumeMounts:
+        - name: app-data
+          mountPath: /app

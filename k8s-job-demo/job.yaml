@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: k8s-migrate-job
+spec:
+  backoffLimit: 4           # Number of retries before considering failed
+  ttlSecondsAfterFinished: 600 # Pod will be deleted 10 minutes after completion
+  activeDeadlineSeconds: 600 # Job will be terminated after 10 minutes
+  template:
+    spec:
+      containers:
+        - name: migrate
+          image: my-job-app
+          command: ["npm", "run", "migrate"]
+      restartPolicy: Never

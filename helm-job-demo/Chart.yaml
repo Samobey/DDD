@@ -1,0 +1,4 @@
+apiVersion: v2
+name: helm-job-demo
+version: 0.1.0
+description: Helm chart with migration Job as a hook

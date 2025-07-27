@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helm-job-demo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helm-job-demo-app
+  template:
+    metadata:
+      labels:
+        app: helm-job-demo-app
+    spec:
+      containers:
+        - name: app
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          command: ["npm", "start"]
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
