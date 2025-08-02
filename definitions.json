@@ -1,0 +1,15 @@
+{
+  "policies": [
+    {
+      "vhost": "/",
+      "name": "dlq-strategy-policy",
+      "pattern": "^important-queue$",
+      "definition": {
+        "dead-letter-strategy": "at-least-once",
+        "overflow": "reject-publish"
+      },
+      "priority": 1,
+      "apply-to": "queues"
+    }
+  ]
+}
