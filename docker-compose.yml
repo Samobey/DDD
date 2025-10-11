@@ -1,0 +1,42 @@
+version: '3.9'
+services:
+  eventstore:
+    image: eventstore/eventstore:latest
+    environment:
+      EVENTSTORE_DB: "EventStore.db"
+      EVENTSTORE_RUN_PROJECTIONS: "All"
+      EVENTSTORE_START_STANDARD_PROJECTIONS: "true"
+      EVENTSTORE_INSECURE: "true"
+    ports:
+      - "2113:2113"   # HTTP API
+      - "1113:1113"   # TCP client
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: events_demo
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  app:
+    build: .
+    depends_on:
+      - eventstore
+      - rabbitmq
+      - postgres
+      - redis
+    ports:
+      - "3000:3000"
