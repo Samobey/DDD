@@ -1,0 +1,14 @@
+{
+  "name": "deadlock-demo",
+  "version": "1.0.0",
+  "description": "Simple demo that triggers a DB deadlock",
+  "main": "userA.js",
+  "scripts": {
+    "start:a": "node userA.js",
+    "start:b": "node userB.js"
+  },
+  "dependencies": {
+    "mysql2": "^3.3.0"
+  },
+  "type": "module"
+}
