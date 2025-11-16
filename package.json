@@ -1,0 +1,15 @@
+{
+  "name": "rabbit-out-of-order-demo",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "producer": "node producer.js",
+    "consumer-fast": "PROCESS_DELAY=50 node consumer.js",
+    "consumer-slow": "PROCESS_DELAY=700 node consumer.js",
+    "consumer-mitigate": "node consumer_mitigate.js"
+  },
+  "dependencies": {
+    "amqplib": "^0.10.9",
+    "dotenv": "^16.0.0"
+  }
+}
