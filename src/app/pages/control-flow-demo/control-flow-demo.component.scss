@@ -1,0 +1,288 @@
+.control-flow-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #32cd32 0%, #00ff00 100%);
+  padding: 2rem 1rem;
+}
+
+.page-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2.5rem;
+  }
+
+  p {
+    margin: 0;
+    opacity: 0.9;
+  }
+}
+
+.control-flow-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.demo-section {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    margin: 0 0 1.5rem 0;
+    color: #333;
+    border-bottom: 3px solid #32cd32;
+    padding-bottom: 0.5rem;
+  }
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.filter-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #ddd;
+  background: white;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #666;
+
+  &:hover {
+    border-color: #32cd32;
+    color: #32cd32;
+  }
+
+  &.active {
+    background: #32cd32;
+    color: white;
+    border-color: #32cd32;
+  }
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-add {
+  background: #667eea;
+  color: white;
+  margin-left: auto;
+
+  &:hover {
+    background: #5568d3;
+    transform: translateY(-2px);
+  }
+}
+
+.todos-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: #f5f5f5;
+  border-radius: 8px;
+  color: #999;
+  font-size: 1.1rem;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 8px;
+  border-left: 4px solid #32cd32;
+  transition: all 0.3s;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &.completed {
+    opacity: 0.6;
+
+    .title {
+      text-decoration: line-through;
+      color: #999;
+    }
+  }
+}
+
+.todo-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.checkbox {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.title {
+  color: #333;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.priority {
+  padding: 0.35rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.priority-high {
+  background: rgba(255, 0, 0, 0.1);
+  color: #ff0000;
+}
+
+.priority-medium {
+  background: rgba(255, 200, 0, 0.1);
+  color: #ff8c00;
+}
+
+.priority-low {
+  background: rgba(0, 128, 0, 0.1);
+  color: #008000;
+}
+
+.btn-remove {
+  padding: 0.5rem 0.75rem;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #ff5252;
+  }
+}
+
+.syntax-examples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.example {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+
+  h3 {
+    margin: 0 0 1rem 0;
+    color: #333;
+  }
+}
+
+pre {
+  margin: 0 0 0.75rem 0;
+  overflow: auto;
+}
+
+code {
+  display: block;
+  background: #1a1a1a;
+  color: #00ff00;
+  padding: 1rem;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+.note {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.benefits-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.benefit {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f0fff0 0%, #e0ffe0 100%);
+  border-radius: 8px;
+  border-left: 4px solid #32cd32;
+
+  .icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  h4 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+  }
+
+  p {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+  }
+
+  .btn-add {
+    margin-left: 0;
+  }
+
+  .todo-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .priority {
+    align-self: flex-start;
+  }
+
+  .btn-remove {
+    align-self: flex-end;
+  }
+}

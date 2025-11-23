@@ -1,0 +1,85 @@
+<div class="gemini-container">
+  <div class="header">
+    <h1>🤖 Gemini AI Chatbot</h1>
+    <p class="subtitle">Powered by Google's Gemini API</p>
+  </div>
+
+  <div class="chat-messages">
+    @if (hasMessages) {
+      @for (message of messages; track message.id) {
+        <div [class.message-row]="true" [class.user]="message.role === 'user'" [class.assistant]="message.role === 'assistant'">
+          <div class="message">
+            <div class="message-badge">{{ message.role === 'user' ? 'You' : 'Gemini' }}</div>
+            <div class="message-content">{{ message.content }}</div>
+            <div class="message-time">{{ message.timestamp | date:'short' }}</div>
+          </div>
+        </div>
+      }
+    }
+    
+    @if (!hasMessages) {
+      <div class="empty-state">
+        <div class="empty-icon">💬</div>
+        <h2>Start a conversation</h2>
+        <p>Ask Gemini anything! Type your question below and press Enter or click Send.</p>
+        <div class="example-prompts">
+          <p class="label">Try asking:</p>
+          <ul>
+            <li>"What is Angular and why use it?"</li>
+            <li>"Explain machine learning in simple terms"</li>
+            <li>"Write a JavaScript function to reverse a string"</li>
+          </ul>
+        </div>
+      </div>
+    }
+
+    @if (isLoading) {
+      <div class="message-row assistant loading">
+        <div class="message">
+          <div class="message-badge">Gemini</div>
+          <div class="loading-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (error) {
+    <div class="error-message">
+      <strong>⚠️ Error:</strong> {{ error }}
+    </div>
+  }
+
+  <div class="input-area">
+    <div class="input-wrapper">
+      <textarea
+        [(ngModel)]="userInput"
+        (keypress)="onKeyPress($event)"
+        placeholder="Ask me anything... (Shift+Enter for new line)"
+        [disabled]="isLoading"
+        class="message-input"
+        rows="3"
+      ></textarea>
+      <div class="button-group">
+        <button
+          (click)="sendMessage()"
+          [disabled]="isLoading || !userInput.trim()"
+          class="send-btn"
+        >
+          {{ isLoading ? 'Sending...' : 'Send' }}
+        </button>
+        <button
+          (click)="clearChat()"
+          [disabled]="isLoading || !hasMessages"
+          class="clear-btn"
+        >
+          Clear
+        </button>
+      </div>
+    </div>
+    <p class="hint">💡 Press Enter to send, Shift+Enter for new line</p>
+  </div>
+</div>

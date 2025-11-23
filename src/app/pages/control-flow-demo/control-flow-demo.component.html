@@ -1,0 +1,138 @@
+<div class="control-flow-page">
+  <header class="page-header">
+    <h1>🔄 New Control Flow Syntax</h1>
+    <p>Showcasing &#64;if, &#64;for, &#64;switch, &#64;empty directives</p>
+  </header>
+
+  <main class="control-flow-container">
+    <section class="demo-section">
+      <h2>Todo Application</h2>
+      
+      <div class="controls">
+        <button (click)="toggleFilter('all')" [class.active]="filter() === 'all'" class="filter-btn">
+          All ({{ todoCount() }})
+        </button>
+        <button (click)="toggleFilter('pending')" [class.active]="filter() === 'pending'" class="filter-btn">
+          Pending ({{ pendingCount() }})
+        </button>
+        <button (click)="toggleFilter('completed')" [class.active]="filter() === 'completed'" class="filter-btn">
+          Completed ({{ completedCount() }})
+        </button>
+        <button (click)="addSampleTodo()" class="btn btn-add">Add Sample Todo</button>
+      </div>
+
+      <div class="todos-container">
+        @if (todoCount() === 0) {
+          <div class="empty-state">
+            <p>📝 No todos yet! Click "Add Sample Todo" to get started.</p>
+          </div>
+        } @else {
+          @for (todo of filteredTodos(); track todo.id) {
+            <div class="todo-item" [class.completed]="todo.completed">
+              <div class="todo-info">
+                <input 
+                  type="checkbox" 
+                  [checked]="todo.completed"
+                  (change)="toggleTodo(todo.id)"
+                  class="checkbox"
+                >
+                <span class="title">{{ todo.title }}</span>
+              </div>
+
+              @switch (todo.priority) {
+                @case ('high') {
+                  <span class="priority priority-high">🔴 High</span>
+                }
+                @case ('medium') {
+                  <span class="priority priority-medium">🟡 Medium</span>
+                }
+                @case ('low') {
+                  <span class="priority priority-low">🟢 Low</span>
+                }
+              }
+
+              <button (click)="removeTodo(todo.id)" class="btn-remove">✕</button>
+            </div>
+          } @empty {
+            <div class="empty-state">
+              <p>�� No todos in this filter!</p>
+            </div>
+          }
+        }
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Syntax Examples</h2>
+      
+      <div class="syntax-examples">
+        <div class="example">
+          <h3>Conditional Rendering</h3>
+          <p>Use conditional blocks for rendering content:</p>
+          <pre><code>&#64;if (condition) - Shown when true
+&#64;else - Optional else branch</code></pre>
+          <p class="note">Alternative: &#64;if (condition) ... &#64;else if (other) ... &#64;else ...</p>
+        </div>
+
+        <div class="example">
+          <h3>Loop Iteration</h3>
+          <p>Iterate over arrays with optimized performance:</p>
+          <pre><code>&#64;for (item of items; track item.id) - Loop through items
+track - Required for performance</code></pre>
+          <p class="note">Always use track for performance. Options: track $index, track item.id, etc.</p>
+        </div>
+
+        <div class="example">
+          <h3>Empty Fallback</h3>
+          <p>Display content when a loop has no items:</p>
+          <pre><code>&#64;for (item of items; track item.id) - Loop items
+&#64;empty - Shows when array is empty</code></pre>
+          <p class="note">Displayed when the array is empty. Works with &#64;for only.</p>
+        </div>
+
+        <div class="example">
+          <h3>Pattern Matching</h3>
+          <p>Type-safe switch statement for pattern matching:</p>
+          <pre><code>&#64;switch (value) - Evaluate expression
+&#64;case - Pattern match
+&#64;default - Fallback case</code></pre>
+          <p class="note">Type-safe switch statement. Cases must be exhaustive or have &#64;default.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Benefits Over *ngIf / *ngFor</h2>
+      <div class="benefits-list">
+        <div class="benefit">
+          <span class="icon">✅</span>
+          <div>
+            <h4>Better Readability</h4>
+            <p>Control flow is explicit and easier to understand</p>
+          </div>
+        </div>
+        <div class="benefit">
+          <span class="icon">⚡</span>
+          <div>
+            <h4>Improved Performance</h4>
+            <p>Native control flow without directive overhead</p>
+          </div>
+        </div>
+        <div class="benefit">
+          <span class="icon">🔍</span>
+          <div>
+            <h4>Better Type Safety</h4>
+            <p>Full TypeScript support with proper type narrowing</p>
+          </div>
+        </div>
+        <div class="benefit">
+          <span class="icon">📦</span>
+          <div>
+            <h4>Smaller Bundle</h4>
+            <p>No need to import structural directives</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

@@ -1,0 +1,98 @@
+<div class="signals-page">
+  <header class="page-header">
+    <h1>⚡ Angular Signals & Reactivity</h1>
+    <p>Experience fine-grained reactivity with signals and derived values</p>
+  </header>
+
+  <main class="signals-container">
+    <section class="demo-section">
+      <h2>Shopping Cart Demo</h2>
+      
+      <div class="cart-info">
+        <div class="stat">
+          <span class="label">Items in Cart:</span>
+          <span class="value">{{ itemCount() }}</span>
+        </div>
+        <div class="stat">
+          <span class="label">Total Price:</span>
+          <span class="value">${{ totalPrice() }}</span>
+        </div>
+        <div class="stat">
+          <span class="label">Average Price:</span>
+          <span class="value">${{ averagePrice() }}</span>
+        </div>
+      </div>
+
+      <div class="controls">
+        <input 
+          type="number" 
+          min="1"
+          max="100"
+          [(ngModel)]="newPrice"
+          placeholder="Price"
+          class="input"
+        >
+        <input 
+          type="text" 
+          [(ngModel)]="newName"
+          placeholder="Product name"
+          class="input"
+        >
+        <button (click)="addItem()" class="btn btn-add">
+          Add Product
+        </button>
+        <button (click)="clearCart()" class="btn btn-danger" *ngIf="itemCount() > 0">
+          Clear Cart
+        </button>
+      </div>
+
+      <div class="cart-items">
+        <h3>Cart Items ({{ itemCount() }})</h3>
+        <div *ngIf="itemCount() === 0" class="empty-message">
+          Your cart is empty. Add some items!
+        </div>
+        <div *ngFor="let item of items()" class="cart-item">
+          <div class="item-info">
+            <span class="item-name">{{ item.name }}</span>
+            <span class="item-price">${{ item.price }}</span>
+          </div>
+          <div class="item-controls">
+            <button (click)="updateQuantity(item.id, item.quantity - 1)" class="qty-btn">-</button>
+            <span class="quantity">{{ item.quantity }}</span>
+            <button (click)="updateQuantity(item.id, item.quantity + 1)" class="qty-btn">+</button>
+            <button (click)="removeItem(item.id)" class="btn-remove">Remove</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Signal Features Demonstrated</h2>
+      <ul class="features-list">
+        <li><strong>Writable Signal:</strong> items() - Stores cart data</li>
+        <li><strong>Computed Signal:</strong> itemCount() - Auto-updates on items change</li>
+        <li><strong>Computed Signal:</strong> totalPrice() - Derived from items</li>
+        <li><strong>Computed Signal:</strong> averagePrice() - Smart memoization</li>
+        <li><strong>Effect:</strong> Logs cart updates to console (check DevTools)</li>
+      </ul>
+    </section>
+
+    <section class="demo-section">
+      <h2>Performance Benefits</h2>
+      <div class="benefits">
+        <div class="benefit-item">
+          <h4>✅ Fine-Grained Reactivity</h4>
+          <p>Only affected components re-render, not the entire tree</p>
+        </div>
+        <div class="benefit-item">
+          <h4>✅ Automatic Memoization</h4>
+          <p>Computed values cache results until dependencies change</p>
+        </div>
+        <div class="benefit-item">
+          <h4>✅ Zero Overhead</h4>
+          <p>No Change Detection Strategy needed - signals are the strategy</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

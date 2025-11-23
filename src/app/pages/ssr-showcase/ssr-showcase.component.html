@@ -1,0 +1,176 @@
+<div class="ssr-page">
+  <header class="page-header">
+    <h1>🖥️ Server-Side Rendering (SSR) Showcase</h1>
+    <p>Full server-side rendering with dynamic content and real-time updates</p>
+  </header>
+
+  <main class="ssr-container">
+    <section class="demo-section">
+      <h2>Server-Rendered Content</h2>
+      <p class="section-description">
+        This entire page is rendered on the server before being sent to the client.
+        Scroll down to see real-time data updates with event handling.
+      </p>
+
+      <div class="status-grid">
+        <div class="status-card">
+          <h3>Render Mode</h3>
+          <p class="value">Server-Side</p>
+          <p class="description">Full HTML pre-rendered on server</p>
+        </div>
+
+        <div class="status-card">
+          <h3>Render Time</h3>
+          <p class="value">{{ serverRenderTime() || 'Loading...' }}</p>
+          <p class="description">Server-side render timestamp</p>
+        </div>
+
+        <div class="status-card">
+          <h3>SEO</h3>
+          <p class="value">Optimized</p>
+          <p class="description">Search engines see complete HTML</p>
+        </div>
+
+        <div class="status-card">
+          <h3>Performance</h3>
+          <p class="value">⚡ Fast</p>
+          <p class="description">Initial content delivered immediately</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Real-Time Data Manager</h2>
+      <p class="section-description">
+        Manage dynamic data in a server-rendered component with instant UI updates.
+      </p>
+
+      <div class="controls">
+        <input 
+          type="text" 
+          [(ngModel)]="newTitle"
+          placeholder="Enter title"
+          class="input"
+          (keyup.enter)="addItem()"
+        >
+        <input 
+          type="text" 
+          [(ngModel)]="newDescription"
+          placeholder="Enter description"
+          class="input"
+          (keyup.enter)="addItem()"
+        >
+        <button (click)="addItem()" class="btn btn-add">
+          Add Item ({{ items().length }})
+        </button>
+      </div>
+
+      <div class="items-container">
+        <div *ngIf="items().length === 0" class="empty-state">
+          <p>📋 No items yet. Add one to get started!</p>
+        </div>
+
+        <div *ngFor="let item of items(); let idx = index" class="item-card" [class.highlight]="idx < 3">
+          <div class="item-header">
+            <h4>{{ item.title }}</h4>
+            <span class="index">#{{ item.id }}</span>
+          </div>
+          <p class="item-description">{{ item.description }}</p>
+          <div class="item-footer">
+            <span class="timestamp">{{ item.timestamp }}</span>
+            <button (click)="removeItem(item.id)" class="btn-small btn-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>SSR Benefits</h2>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <h3>🔍 SEO Friendly</h3>
+          <p>
+            Search engines receive fully rendered HTML with all content, improving indexing
+            and ranking potential compared to client-only rendering.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <h3>⚡ Faster First Paint</h3>
+          <p>
+            Server sends complete HTML to browser, enabling faster First Contentful Paint
+            and better perceived performance for users.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <h3>📱 Works Without JS</h3>
+          <p>
+            Pages can be viewed and navigated without JavaScript, ensuring accessibility
+            and resilience for users with slower connections.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <h3>🌍 Multi-Device</h3>
+          <p>
+            Rendering happens on powerful servers, enabling better support for low-end
+            devices and older browsers.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <h3>🔐 Security</h3>
+          <p>
+            Sensitive data can be kept server-side and never exposed to the client,
+            improving security and protecting API keys.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <h3>📊 Analytics Ready</h3>
+          <p>
+            Pre-rendered content ensures analytics tools can accurately track page views
+            and user behavior.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Prerendering vs Server Rendering</h2>
+      <div class="comparison-table">
+        <div class="table-header">
+          <div class="cell">Feature</div>
+          <div class="cell">Prerendering</div>
+          <div class="cell">Server Rendering</div>
+        </div>
+        <div class="table-row">
+          <div class="cell bold">Build Time</div>
+          <div class="cell">All pages generated</div>
+          <div class="cell">No build time</div>
+        </div>
+        <div class="table-row">
+          <div class="cell bold">Dynamic Content</div>
+          <div class="cell">No</div>
+          <div class="cell">Yes</div>
+        </div>
+        <div class="table-row">
+          <div class="cell bold">Server Load</div>
+          <div class="cell">Low</div>
+          <div class="cell">Medium-High</div>
+        </div>
+        <div class="table-row">
+          <div class="cell bold">Cache-Friendly</div>
+          <div class="cell">Yes (Perfect)</div>
+          <div class="cell">Yes (Per Request)</div>
+        </div>
+        <div class="table-row">
+          <div class="cell bold">Use Case</div>
+          <div class="cell">Static content</div>
+          <div class="cell">Dynamic data</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

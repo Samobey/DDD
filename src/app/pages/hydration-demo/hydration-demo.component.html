@@ -1,0 +1,125 @@
+<div class="hydration-page">
+  <header class="page-header">
+    <h1>💧 Hydration & Incremental Loading</h1>
+    <p>Standard Hydration + Incremental Hydration with Deferred Rendering</p>
+  </header>
+
+  <main class="hydration-container">
+    <section class="demo-section">
+      <h2>Hydration Status</h2>
+      <div class="hydration-status">
+        <div class="status-box">
+          <h3>Server-Side Rendered Content</h3>
+          <p>This content is pre-rendered on the server and hydrated on the client.</p>
+          <div class="ssr-content">
+            <div class="item" *ngFor="let item of prerenderedItems()">
+              <span class="icon">{{ item.icon }}</span>
+              <span class="name">{{ item.name }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-box">
+          <h3>Hydration Info</h3>
+          <ul class="info-list">
+            <li><strong>Strategy:</strong> withIncrementalHydration()</li>
+            <li><strong>Benefits:</strong> Faster Time-to-Interactive</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Deferred Content Example</h2>
+      <p class="section-description">
+        The components below use &#64;defer to load only when visible (or on interaction).
+        This reduces initial payload and improves Core Web Vitals.
+      </p>
+      
+      <div class="defer-controls">
+        <button (click)="loadAllDeferred()" class="btn btn-primary">
+          Load All Deferred Content
+        </button>
+        <button (click)="resetDeferred()" class="btn btn-secondary">
+          Reset
+        </button>
+      </div>
+
+      <div class="deferred-section">
+        <h3>Deferred Component #1 - Heavy Analytics</h3>
+        <p class="hint">Loads on scroll or interaction</p>
+        @defer (on viewport) {
+          <div class="lazy-wrapper">
+            <app-lazy></app-lazy>
+          </div>
+        } @loading (after 100ms; minimum 1s) {
+          <div class="placeholder loading">
+            ⏳ Loading component...
+          </div>
+        } @placeholder {
+          <div class="placeholder">
+            🔄 Component deferred (not loaded yet)
+          </div>
+        }
+      </div>
+
+      <div class="deferred-section">
+        <h3>Deferred Component #2 - Heavy Computation</h3>
+        <p class="hint">Loads on scroll or interaction</p>
+        @defer (on viewport) {
+          <div class="lazy-wrapper">
+            <app-lazy></app-lazy>
+          </div>
+        } @loading (after 100ms; minimum 1s) {
+          <div class="placeholder loading">
+            ⏳ Loading component...
+          </div>
+        } @placeholder {
+          <div class="placeholder">
+            🔄 Component deferred (not loaded yet)
+          </div>
+        }
+      </div>
+
+      <div class="deferred-section">
+        <h3>Deferred Component #3 - Heavy Rendering</h3>
+        <p class="hint">Loads on scroll or interaction</p>
+        @defer (on viewport) {
+          <div class="lazy-wrapper">
+            <app-lazy></app-lazy>
+          </div>
+        } @loading (after 100ms; minimum 1s) {
+          <div class="placeholder loading">
+            ⏳ Loading component...
+          </div>
+        } @placeholder {
+          <div class="placeholder">
+            🔄 Component deferred (not loaded yet)
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Key Concepts</h2>
+      <div class="concepts-grid">
+        <div class="concept-card">
+          <h4>🌊 Standard Hydration</h4>
+          <p>Reuses server-rendered HTML and attaches event listeners to create a fully interactive app.</p>
+        </div>
+        <div class="concept-card">
+          <h4>⏱️ Incremental Hydration</h4>
+          <p>Hydrates only visible components first, deferring non-critical ones for better Time-to-Interactive.</p>
+        </div>
+        <div class="concept-card">
+          <h4>⏳ Deferred Rendering</h4>
+          <p>Uses &#64;defer blocks to load components on-demand (on scroll, interaction, or timer).</p>
+        </div>
+        <div class="concept-card">
+          <h4>📊 Event Replay</h4>
+          <p>Captures and replays user events during hydration so nothing is lost during the transition.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

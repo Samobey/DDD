@@ -1,0 +1,19 @@
+@if (filter() === 'all') {
+  <span class="filter-btn active">All ({{ todoCount() }})</span>
+} @else {
+  <button (click)="toggleFilter('all')" class="filter-btn">All ({{ todoCount() }})</button>
+}
+
+@if (filter() === 'pending') {
+  <span class="filter-btn active">Pending ({{ pendingCount() }})</span>
+} @else {
+  <button (click)="toggleFilter('pending')" class="filter-btn">Pending ({{ pendingCount() }})</button>
+}
+
+@if (filter() === 'completed') {
+  <span class="filter-btn active">Completed ({{ completedCount() }})</span>
+} @else {
+  <button (click)="toggleFilter('completed')" class="filter-btn">Completed ({{ completedCount() }})</button>
+}
+
+<button (click)="addSampleTodo()" class="btn btn-add">Add Sample Todo</button>
