@@ -1,0 +1,72 @@
+services:
+  order-service:
+    build:
+      context: .
+      dockerfile: services/order/Dockerfile
+    container_name: saga_order_service
+    ports:
+      - "3001:3001"
+    environment:
+      MONGODB_URI: ${MONGODB_URI}
+      ORDER_SERVICE_PORT: 3001
+      PAYMENT_SERVICE_URL: http://payment-service:3002
+      INVENTORY_SERVICE_URL: http://inventory-service:3003
+      SHIPPING_SERVICE_URL: http://shipping-service:3004
+    networks:
+      - saga-network
+    restart: unless-stopped
+
+  payment-service:
+    build:
+      context: .
+      dockerfile: services/payment/Dockerfile
+    container_name: saga_payment_service
+    ports:
+      - "3002:3002"
+    environment:
+      MONGODB_URI: ${MONGODB_URI}
+      PAYMENT_SERVICE_PORT: 3002
+      INVENTORY_SERVICE_URL: http://inventory-service:3003
+      SHIPPING_SERVICE_URL: http://shipping-service:3004
+      ORDER_SERVICE_URL: http://order-service:3001
+    networks:
+      - saga-network
+    restart: unless-stopped
+
+  inventory-service:
+    build:
+      context: .
+      dockerfile: services/inventory/Dockerfile
+    container_name: saga_inventory_service
+    ports:
+      - "3003:3003"
+    environment:
+      MONGODB_URI: ${MONGODB_URI}
+      INVENTORY_SERVICE_PORT: 3003
+      SHIPPING_SERVICE_URL: http://shipping-service:3004
+      PAYMENT_SERVICE_URL: http://payment-service:3002
+      ORDER_SERVICE_URL: http://order-service:3001
+    networks:
+      - saga-network
+    restart: unless-stopped
+
+  shipping-service:
+    build:
+      context: .
+      dockerfile: services/shipping/Dockerfile
+    container_name: saga_shipping_service
+    ports:
+      - "3004:3004"
+    environment:
+      MONGODB_URI: ${MONGODB_URI}
+      SHIPPING_SERVICE_PORT: 3004
+      INVENTORY_SERVICE_URL: http://inventory-service:3003
+      PAYMENT_SERVICE_URL: http://payment-service:3002
+      ORDER_SERVICE_URL: http://order-service:3001
+    networks:
+      - saga-network
+    restart: unless-stopped
+
+networks:
+  saga-network:
+    driver: bridge

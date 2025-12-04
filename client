@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/orders/start-saga HTTP/1.1
+content-type: application/json
+idempotency-key: 507f1f77bcf86cd799439014
+
+{
+    "customerId": "12346789",
+    "productId": "PROD-1000",
+    "quantity": 10,
+    "totalPrice": 55.99
+}

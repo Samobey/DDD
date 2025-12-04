@@ -1,0 +1,35 @@
+{
+  "name": "saga-microservices",
+  "version": "1.0.0",
+  "description": "Saga Pattern Implementation with Node.js, Express.js, and MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "order-service": "node src/services/order/server.js",
+    "payment-service": "node src/services/payment/server.js",
+    "inventory-service": "node src/services/inventory/server.js",
+    "shipping-service": "node src/services/shipping/server.js",
+    "order-service:dev": "nodemon src/services/order/server.js",
+    "payment-service:dev": "nodemon src/services/payment/server.js",
+    "inventory-service:dev": "nodemon src/services/inventory/server.js",
+    "shipping-service:dev": "nodemon src/services/shipping/server.js"
+  },
+  "keywords": [
+    "saga",
+    "microservices",
+    "distributed-transactions",
+    "orchestration"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.5.0",
+    "axios": "^1.5.0",
+    "uuid": "^9.0.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.7.0"
+  }
+}
